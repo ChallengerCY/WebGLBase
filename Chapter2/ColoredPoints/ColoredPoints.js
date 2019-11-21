@@ -17,7 +17,6 @@ let g_colors = [];
 
 function main(){
     let canvas = document.getElementById('webgl');
-
     let gl = getWebGLContext(canvas);
 
     if (!gl) {
@@ -37,7 +36,7 @@ function main(){
     }
 
     let  u_FragColor=gl.getUniformLocation(gl.program,'u_FragColor');
-    if (u_FragColor < 0) {
+    if (!u_FragColor) {
         console.log('Fialed to get the storage location of a u_FragColor');
         return;
     }
@@ -81,5 +80,14 @@ function click(ev, gl, canvas, a_Position,u_FragColor) {
         gl.uniform4fv(u_FragColor,g_colors[i]);
         gl.drawArrays(gl.POINTS, 0, 1);
     }
-
 }
+
+/** 本段代码小结
+ * 只有顶点着色器才能使用attribute变量。使用片元着色器需要使用uniform变量或者使用varying。
+ * uniform vec4 u_FragColor。格式解析: 存储限定符，类型和变量名。
+ * precision mediump float。precision 是精度限定词。用来指定变量的范围(最大值和最小值)和精度。
+ * getUniformLocation()用来获取 uniform的地址。如果不存在则会返回null。（这里与getAttribLocation的返回值不同，getAttribLocation返回-1）。
+ * uniform4fv()用来向uniform的地址写入对应的颜色。
+ * uniform4fv也有很多同族函数。location 指定uniform变量的存储位置。v0,v1,v2,v3代表rgba，前三个默认值是0.0，第四个值默认是1.0。
+ * 顶点着色器是逐顶点操作的。片元着色器是逐片元操作的。
+ * */
