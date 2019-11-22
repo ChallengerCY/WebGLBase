@@ -80,6 +80,7 @@ function click(ev, gl, canvas, a_Position,u_FragColor) {
         gl.uniform4fv(u_FragColor,g_colors[i]);
         gl.drawArrays(gl.POINTS, 0, 1);
     }
+
 }
 
 /** 本段代码小结
